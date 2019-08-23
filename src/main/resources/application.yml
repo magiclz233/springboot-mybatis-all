@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  security:
+    user:
+      name: user
+      password: 123
+  datasource:
+    name: mybatis-all
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mybatis-all?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: magic
+    password: 123456
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: magic
+    password: 123456
+mybatis:
+  mapper-locations: classpath:com/magic/mapper/*.xml
+  type-aliases-package: com/magic/dto
+pagehelper:
+  helper-dialect: mysql
+logging:
+  level:
+    com:
+      magic:
+        mapper: debug

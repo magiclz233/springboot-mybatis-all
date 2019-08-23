@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.magic.dto.Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.magic.dto.Student">
+    insert into student (`name`, sex,
+      birthday, department, address
+      )
+    values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+      #{birthday,jdbcType=DATE}, #{department,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.magic.dto.Student">
+    update student
+    set `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      department = #{department,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="pageStudent" resultMap="BaseResultMap">
+    select id, `name`, sex, birthday, department, address
+    from student limit #{pageNum},#{pageSize}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, `name`, sex, birthday, department, address
+    from student
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, `name`, sex, birthday, department, address
+    from student
+  </select>
+  <select id="selectStudentScore" resultType="com.magic.pojo.StudentScore">
+    SELECT  stu.id studentId,stu.`name` studentName,stu.department department,
+    sc.class_name className,sc.grade grade
+    FROM student stu,score sc where stu.id = sc.student_id
+  </select>
+  <select id="selectByAll"  resultType="com.magic.dto.Student">
+    select id, `name`, sex, birthday, department, address
+    from student where 1=1
+
+      <if test="id != null">
+        and id = #{id}
+      </if>
+    <if test="name != null and name !=''">
+      and name like concat('%',#{name},'%')
+    </if>
+  </select>
+  <select id="selectByIdOrName" resultType="com.magic.dto.Student">
+    select id, `name`, sex, birthday, department, address
+    from student where 1=1
+    <choose>
+      <when test="id != null">
+        and id = #{id}
+      </when>
+      <when test="name != null and name != ''">
+        and name = #{name}
+      </when>
+      <otherwise>
+        and 1 = 2
+      </otherwise>
+    </choose>
+  </select>
+</mapper>

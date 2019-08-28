@@ -13,7 +13,7 @@ public class Score implements Serializable {
 
     private Integer grade;
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
 
 }
